@@ -1,15 +1,21 @@
-package com.exaltit.banky;
+package com.exaltit.banky.test.account;
 
+import com.exaltit.banky.account.BankAccount;
+import com.exaltit.banky.account.BankAccountFactory;
+import com.exaltit.banky.account.BankAccountType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 class BankAccountTest {
     @Test
     @DisplayName("Bank account initialisation should always have 0")
     void createBankAccount() {
         // GIVEN/WHEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
 
         // THEN
         final Long actual = bankAccount.computeBalance();
@@ -19,7 +25,7 @@ class BankAccountTest {
     @Test
     void deposit() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         bankAccount.deposit(500L);
         // THEN
@@ -30,7 +36,7 @@ class BankAccountTest {
     @Test
     void multipleDeposits() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.deposit(500L);
@@ -42,7 +48,7 @@ class BankAccountTest {
     @Test
     void withdraw() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(5L);
@@ -54,7 +60,7 @@ class BankAccountTest {
     @Test
     void multipleWithdraw() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(5L);
@@ -67,7 +73,7 @@ class BankAccountTest {
     @Test
     void shouldThrowExceptionWhenWithdrawing() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         // THEN
         Assertions.assertThrows(IllegalStateException.class, () -> bankAccount.withdraw(10L));
@@ -76,7 +82,7 @@ class BankAccountTest {
     @Test
     void shouldThrowExceptionWhenDeposit() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount(0, 10);
+        BankAccount bankAccount = BankAccountFactory.createBankAccount(0, 10, BankAccountType.DEFAULT);
         // WHEN
         // THEN
         Assertions.assertThrows(IllegalStateException.class, () -> bankAccount.deposit(11L));
@@ -85,8 +91,8 @@ class BankAccountTest {
     @Test
     void bankAccountShouldHaveUniqueId() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
-        final BankAccount bankAccount2 = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
+        final BankAccount bankAccount2 = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         // THEN
         Assertions.assertNotEquals(bankAccount.getId(), bankAccount2.getId());
@@ -96,7 +102,7 @@ class BankAccountTest {
     @DisplayName("Feature 1: Deposit 500, Withdraw 450, Refuse to withdraw 100, Remains 50")
     void feature1() {
         //GIVEN
-        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(450L);
@@ -114,7 +120,7 @@ class BankAccountTest {
     @DisplayName("Feature 2: Deposit 500, Withdraw 450, Allow to withdraw 100, Remains 50")
     void feature2() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount(50, Long.MAX_VALUE);
+        BankAccount bankAccount = BankAccountFactory.createBankAccount(50, Long.MAX_VALUE, BankAccountType.DEFAULT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(450L);
@@ -139,5 +145,28 @@ class BankAccountTest {
         // THEN
         final Long balance = bankAccount.getBalance();
         Assertions.assertEquals(0L, balance);
+    }
+
+    @Test
+    @DisplayName("Feature 4: Display Compte Courant, balance, operations ordered by date")
+    void feature4() {
+        // GIVEN
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
+        final String expected = """
+                Account type: Current account
+                Current balance: 10
+                Date       | Transaction | Amount | Balance
+                %s | DEPOSIT     | 20     | 20
+                %s | WITHDRAWAL  | 10     | 10
+                """.formatted(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
+        // FIXME: This is an awful way to do that
+        // Can do better by using a clock for the whole application?
+        // Mock BankAccount#financialTransactionsOrdered? But will not really test the added transactions
+        // WHEN
+        bankAccount.deposit(20);
+        bankAccount.withdraw(10);
+        // THEN
+        final String statement = bankAccount.statement();
+        Assertions.assertEquals(expected, statement);
     }
 }
