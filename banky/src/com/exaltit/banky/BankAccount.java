@@ -30,7 +30,7 @@ public class BankAccount {
     }
 
     public void withdraw(final long amount) {
-        if(this.getBalance() - amount < allowedOverdraft) {
+        if(this.getBalance() - amount < -allowedOverdraft) {
             throw new IllegalStateException("Unauthorised operation: insufficient balance");
         }
         this.balance -= amount;

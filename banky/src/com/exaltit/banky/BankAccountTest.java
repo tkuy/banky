@@ -100,4 +100,18 @@ class BankAccountTest {
         final Long actual = bankAccount.computeBalance();
         Assertions.assertEquals(50L, actual);
     }
+
+    @Test
+    @DisplayName("Feature 2: Deposit 500, Withdraw 450, Allow to withdraw 100, Remains 50")
+    void feature2() {
+        //GIVEN
+        BankAccount bankAccount = new BankAccount(50);
+        // WHEN
+        bankAccount.deposit(500L);
+        bankAccount.withdraw(450L);
+        bankAccount.withdraw(100L);
+        // THEN
+        final Long actual = bankAccount.computeBalance();
+        Assertions.assertEquals(-50L, actual);
+    }
 }
