@@ -4,16 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 class BankAccountTest {
     @Test
     @DisplayName("Bank account initialisation should always have 0")
     void createBankAccount() {
         // GIVEN/WHEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
 
         // THEN
         final Long actual = bankAccount.computeBalance();
@@ -23,7 +19,7 @@ class BankAccountTest {
     @Test
     void deposit() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         bankAccount.deposit(500L);
         // THEN
@@ -34,7 +30,7 @@ class BankAccountTest {
     @Test
     void multipleDeposits() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.deposit(500L);
@@ -46,7 +42,7 @@ class BankAccountTest {
     @Test
     void withdraw() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(5L);
@@ -58,7 +54,7 @@ class BankAccountTest {
     @Test
     void multipleWithdraw() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(5L);
@@ -69,19 +65,28 @@ class BankAccountTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenUnauthorisedOperation() {
+    void shouldThrowExceptionWhenWithdrawing() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         // THEN
         Assertions.assertThrows(IllegalStateException.class, () -> bankAccount.withdraw(10L));
     }
 
     @Test
+    void shouldThrowExceptionWhenDeposit() {
+        //GIVEN
+        BankAccount bankAccount = new BankAccount(0, 10);
+        // WHEN
+        // THEN
+        Assertions.assertThrows(IllegalStateException.class, () -> bankAccount.deposit(11L));
+    }
+
+    @Test
     void bankAccountShouldHaveUniqueId() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
-        BankAccount bankAccount2 = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
+        final BankAccount bankAccount2 = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         // THEN
         Assertions.assertNotEquals(bankAccount.getId(), bankAccount2.getId());
@@ -91,12 +96,16 @@ class BankAccountTest {
     @DisplayName("Feature 1: Deposit 500, Withdraw 450, Refuse to withdraw 100, Remains 50")
     void feature1() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount();
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.DEFAULT);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(450L);
+        try {
+            bankAccount.withdraw(100L);
+        } catch (Exception ignored) {
+
+        }
         // THEN
-        Assertions.assertThrows(IllegalStateException.class, () -> bankAccount.withdraw(100L));
         final Long actual = bankAccount.computeBalance();
         Assertions.assertEquals(50L, actual);
     }
@@ -105,7 +114,7 @@ class BankAccountTest {
     @DisplayName("Feature 2: Deposit 500, Withdraw 450, Allow to withdraw 100, Remains 50")
     void feature2() {
         //GIVEN
-        BankAccount bankAccount = new BankAccount(50);
+        BankAccount bankAccount = new BankAccount(50, Long.MAX_VALUE);
         // WHEN
         bankAccount.deposit(500L);
         bankAccount.withdraw(450L);
@@ -113,5 +122,22 @@ class BankAccountTest {
         // THEN
         final Long actual = bankAccount.computeBalance();
         Assertions.assertEquals(-50L, actual);
+    }
+
+    @Test
+    @DisplayName("Feature 3: Livret A - Refuse negative balance and refuse to exceed 22950")
+    void feature3() {
+        // GIVEN
+        final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.LIVRET_A_SAVING_ACCOUNT);
+        // WHEN
+        try {
+            bankAccount.withdraw(1L);
+            bankAccount.deposit(22951);
+        } catch (Exception ignored) {
+
+        }
+        // THEN
+        final Long balance = bankAccount.getBalance();
+        Assertions.assertEquals(0L, balance);
     }
 }

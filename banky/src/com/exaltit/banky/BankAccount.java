@@ -8,20 +8,23 @@ public class BankAccount {
 
     private final long allowedOverdraft;
 
+    private final long maxAmount;
+
     private Long balance;
 
-    public BankAccount() {
-        this(0);
-    }
 
-    public BankAccount(final long allowedOverdraft) {
+    BankAccount(final long allowedOverdraft, final long maxAmount) {
         this.id = UUID.randomUUID();
         this.balance = 0L;
         this.allowedOverdraft = allowedOverdraft;
+        this.maxAmount = maxAmount;
     }
 
 
     public void deposit(final long amount) {
+        if(this.getBalance() + amount > maxAmount) {
+            throw new IllegalStateException("Unauthorised operation: balance exceed max amount");
+        }
         this.balance += amount;
     }
 
