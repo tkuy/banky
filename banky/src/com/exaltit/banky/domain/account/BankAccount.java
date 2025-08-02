@@ -21,7 +21,7 @@ public class BankAccount {
 
     private Long balance;
 
-    private BankAccountType bankAccountType;
+    private final BankAccountType bankAccountType;
 
     private List<FinancialTransaction> financialTransactions;
 
@@ -122,7 +122,7 @@ public class BankAccount {
         final String header = "Date       | Transaction | Amount | Balance";
 
         stringBuilder.append(accountType).append("\n").append(currentBalance).append("\n").append(header).append("\n");
-        financialTransactionsOrdered().stream().forEach(transaction -> {
+        financialTransactionsOrdered().forEach(transaction -> {
             String lineFormat;
             if(transaction.transactionType() == TransactionTypeEnum.WITHDRAWAL) {
                 lineFormat = "%s | %s  | %s     | %s";

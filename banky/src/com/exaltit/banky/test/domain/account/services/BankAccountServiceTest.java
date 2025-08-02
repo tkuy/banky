@@ -7,7 +7,6 @@ import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
 import com.exaltit.banky.domain.account.services.BankAccountService;
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 import com.exaltit.banky.domain.financialtransaction.entities.TransactionTypeEnum;
-import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
 import com.exaltit.banky.test.domain.account.ApplicationContextTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,6 @@ import java.util.UUID;
 class BankAccountServiceTest {
 
     private final BankAccountRepository bankAccountRepository = ApplicationContextTest.getInstance().getBankAccountRepository();
-    private final FinancialTransactionRepository financialTransactionRepository = ApplicationContextTest.getInstance().getFinancialTransactionRepository();
     private final BankAccountService bankAccountService = ApplicationContextTest.getInstance().getBankAccountService();
 
     @Test
