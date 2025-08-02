@@ -1,12 +1,13 @@
-package com.exaltit.banky.account;
+package com.exaltit.banky.domain.account;
 
-import com.exaltit.banky.financialtransaction.FinancialTransaction;
-import com.exaltit.banky.financialtransaction.TransactionTypeEnum;
+import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
+import com.exaltit.banky.domain.financialtransaction.entities.TransactionTypeEnum;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class BankAccount {
@@ -21,8 +22,16 @@ public class BankAccount {
 
     private BankAccountType bankAccountType;
 
-    private final List<FinancialTransaction> financialTransactions;
+    private List<FinancialTransaction> financialTransactions;
 
+    BankAccount(final UUID id, final long allowedOverdraft, final long maxAmount, final Long balance, final BankAccountType bankAccountType, final List<FinancialTransaction> financialTransactions) {
+        this.id = id;
+        this.allowedOverdraft = allowedOverdraft;
+        this.maxAmount = maxAmount;
+        this.balance = balance;
+        this.bankAccountType = bankAccountType;
+        this.financialTransactions = financialTransactions;
+    }
 
     BankAccount(final long allowedOverdraft, final long maxAmount, final BankAccountType bankAccountType) {
         this.id = UUID.randomUUID();
@@ -70,6 +79,22 @@ public class BankAccount {
         return bankAccountType;
     }
 
+    public long getAllowedOverdraft() {
+        return allowedOverdraft;
+    }
+
+    public long getMaxAmount() {
+        return maxAmount;
+    }
+
+    public List<FinancialTransaction> getFinancialTransactions() {
+        return financialTransactions;
+    }
+
+    public void setFinancialTransactions(final List<FinancialTransaction> financialTransactions) {
+        this.financialTransactions = financialTransactions;
+    }
+
     public List<FinancialTransaction> financialTransactionsOrdered() {
         return this.financialTransactions.stream().sorted((t1, t2) -> {
             if (t1.localDateTime().isBefore(t2.localDateTime())) {
@@ -100,5 +125,18 @@ public class BankAccount {
             stringBuilder.append(newLine).append("\n");
         });
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(final Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        final BankAccount that = (BankAccount) object;
+        return allowedOverdraft == that.allowedOverdraft && maxAmount == that.maxAmount && Objects.equals(id, that.id) && Objects.equals(balance, that.balance) && bankAccountType == that.bankAccountType && Objects.equals(financialTransactions, that.financialTransactions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, allowedOverdraft, maxAmount, balance, bankAccountType, financialTransactions);
     }
 }

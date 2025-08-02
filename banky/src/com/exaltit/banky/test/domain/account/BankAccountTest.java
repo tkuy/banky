@@ -1,8 +1,8 @@
-package com.exaltit.banky.test.account;
+package com.exaltit.banky.test.domain.account;
 
-import com.exaltit.banky.account.BankAccount;
-import com.exaltit.banky.account.BankAccountFactory;
-import com.exaltit.banky.account.BankAccountType;
+import com.exaltit.banky.domain.account.BankAccount;
+import com.exaltit.banky.domain.account.BankAccountFactory;
+import com.exaltit.banky.domain.account.BankAccountType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

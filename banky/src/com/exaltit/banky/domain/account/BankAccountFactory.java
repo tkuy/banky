@@ -1,4 +1,9 @@
-package com.exaltit.banky.account;
+package com.exaltit.banky.domain.account;
+
+import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
+
+import java.util.List;
+import java.util.UUID;
 
 public class BankAccountFactory {
     public static BankAccount createBankAccount(final BankAccountType bankAccountType) {
@@ -10,5 +15,9 @@ public class BankAccountFactory {
 
     public static BankAccount createBankAccount(final long allowedOverdraft, final long maxAmount, final BankAccountType bankAccountType) {
         return new BankAccount(allowedOverdraft, maxAmount, bankAccountType);
+    }
+
+    public static BankAccount createBankAccount(final UUID id, final long allowedOverdraft, final long maxAmount, final Long balance, final BankAccountType bankAccountType, final List<FinancialTransaction> financialTransactions) {
+        return new BankAccount(id, allowedOverdraft, maxAmount, balance, bankAccountType, financialTransactions);
     }
 }
