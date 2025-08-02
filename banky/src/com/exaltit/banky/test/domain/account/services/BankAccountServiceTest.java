@@ -1,5 +1,6 @@
 package com.exaltit.banky.test.domain.account.services;
 
+import com.exaltit.banky.ApplicationContext;
 import com.exaltit.banky.domain.account.BankAccount;
 import com.exaltit.banky.domain.account.BankAccountFactory;
 import com.exaltit.banky.domain.account.BankAccountType;
@@ -8,6 +9,7 @@ import com.exaltit.banky.domain.account.services.BankAccountService;
 import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
 import com.exaltit.banky.infrastructure.account.repositories.BankAccountInMemoryRepository;
 import com.exaltit.banky.infrastructure.financialtransaction.FinancialTransactionInMemoryRepository;
+import com.exaltit.banky.test.domain.account.ApplicationContextTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,9 +18,9 @@ import java.util.UUID;
 
 class BankAccountServiceTest {
 
-    private final BankAccountRepository bankAccountRepository = new BankAccountInMemoryRepository();
-    private final FinancialTransactionRepository financialTransactionRepository = new FinancialTransactionInMemoryRepository();
-    private final BankAccountService bankAccountService = new BankAccountService(bankAccountRepository, financialTransactionRepository);
+    private final BankAccountRepository bankAccountRepository = ApplicationContextTest.getInstance().getBankAccountRepository();
+    private final FinancialTransactionRepository financialTransactionRepository = ApplicationContextTest.getInstance().getFinancialTransactionRepository();
+    private final BankAccountService bankAccountService = ApplicationContextTest.getInstance().getBankAccountService();
 
     @Test
     void createBankAccount() {
