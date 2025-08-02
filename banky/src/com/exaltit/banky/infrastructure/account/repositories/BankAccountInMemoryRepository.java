@@ -24,4 +24,10 @@ public class BankAccountInMemoryRepository implements BankAccountRepository {
         bankAccounts.put(bankAccount.getId(), bankAccountDb);
         return bankAccount.getId();
     }
+
+    @Override
+    public void update(final BankAccount bankAccount) {
+        final BankAccountDb bankAccountDb = BankAccountDb.fromBankAccountDomain(bankAccount);
+        bankAccounts.put(bankAccount.getId(), bankAccountDb);
+    }
 }

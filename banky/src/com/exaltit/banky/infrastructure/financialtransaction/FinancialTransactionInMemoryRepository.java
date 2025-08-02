@@ -27,4 +27,9 @@ public class FinancialTransactionInMemoryRepository implements FinancialTransact
         bankAccountIdFinancialTransactions.put(bankAccountId, financialTransactionDbs);
         return financialTransaction.id();
     }
+
+    @Override
+    public List<FinancialTransaction> findAllByBankAccountId(final UUID bankAccountId) {
+        return bankAccountIdFinancialTransactions.getOrDefault(bankAccountId, List.of()).stream().map(FinancialTransactionDb::fromDb).toList();
+    }
 }

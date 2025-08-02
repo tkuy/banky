@@ -51,8 +51,7 @@ public class BankAccount {
         }
         this.balance = newBalance;
         final FinancialTransaction newTransaction = new FinancialTransaction(UUID.randomUUID(), LocalDateTime.now(), amount, newBalance, TransactionTypeEnum.DEPOSIT);
-        final List<FinancialTransaction> newFinancialTransactions = Stream.concat(this.financialTransactions.stream(), Stream.of(newTransaction)).toList();
-        this.financialTransactions = newFinancialTransactions;
+        this.financialTransactions = Stream.concat(this.financialTransactions.stream(), Stream.of(newTransaction)).toList();
         return newTransaction;
     }
 
@@ -60,14 +59,15 @@ public class BankAccount {
         return this.balance;
     }
 
-    public void withdraw(final long amount) {
+    public FinancialTransaction withdraw(final long amount) {
         final long newBalance = this.getBalance() - amount;
         if(newBalance < -allowedOverdraft) {
             throw new IllegalStateException("Unauthorised operation: insufficient balance");
         }
         this.balance = newBalance;
         final FinancialTransaction newTransaction = new FinancialTransaction(UUID.randomUUID(), LocalDateTime.now(), amount, newBalance, TransactionTypeEnum.WITHDRAWAL);
-        this.financialTransactions.add(newTransaction);
+        this.financialTransactions = Stream.concat(this.financialTransactions.stream(), Stream.of(newTransaction)).toList();
+        return newTransaction;
     }
 
     public Long getBalance() {
@@ -94,8 +94,13 @@ public class BankAccount {
         return financialTransactions;
     }
 
-    public void setFinancialTransactions(final List<FinancialTransaction> financialTransactions) {
-        this.financialTransactions = financialTransactions;
+    public BankAccount withFinancialTransactions(final List<FinancialTransaction> financialTransactions) {
+        return new BankAccount(this.id,
+        this.allowedOverdraft,
+        this.maxAmount,
+        this.balance,
+        this.bankAccountType,
+        financialTransactions);
     }
 
     public List<FinancialTransaction> financialTransactionsOrdered() {

@@ -9,4 +9,6 @@ public interface BankAccountRepository {
     Optional<BankAccount> findByBankAccountId(UUID bankAccountId);
 
     UUID createBankAccount(BankAccount bankAccount);
+
+    void update(BankAccount bankAccount);
 }

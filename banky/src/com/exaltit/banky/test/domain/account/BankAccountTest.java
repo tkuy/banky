@@ -152,13 +152,14 @@ class BankAccountTest {
     void feature4() {
         // GIVEN
         final BankAccount bankAccount = BankAccountFactory.createBankAccount(BankAccountType.CURRENT_ACCOUNT);
+        final String expectedDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
         final String expected = """
                 Account type: Current account
                 Current balance: 10
                 Date       | Transaction | Amount | Balance
                 %s | DEPOSIT     | 20     | 20
                 %s | WITHDRAWAL  | 10     | 10
-                """.formatted(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
+                """.formatted(expectedDate, expectedDate);
         // FIXME: This is an awful way to do that
         // Can do better by using a clock for the whole application?
         // Mock BankAccount#financialTransactionsOrdered? But will not really test the added transactions
