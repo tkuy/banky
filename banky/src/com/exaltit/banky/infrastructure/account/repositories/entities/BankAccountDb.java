@@ -1,4 +1,4 @@
-package com.exaltit.banky.infrastructure.repositories.entities;
+package com.exaltit.banky.infrastructure.account.repositories.entities;
 
 import com.exaltit.banky.domain.account.BankAccount;
 import com.exaltit.banky.domain.account.BankAccountFactory;

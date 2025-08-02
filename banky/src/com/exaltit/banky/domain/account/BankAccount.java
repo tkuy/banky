@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 public class BankAccount {
 
@@ -43,14 +44,16 @@ public class BankAccount {
     }
 
 
-    public void deposit(final long amount) {
+    public FinancialTransaction deposit(final long amount) {
         final long newBalance = this.getBalance() + amount;
         if(newBalance > maxAmount) {
             throw new IllegalStateException("Unauthorised operation: balance exceed max amount");
         }
         this.balance = newBalance;
-        final FinancialTransaction newTransaction = new FinancialTransaction(LocalDateTime.now(), amount, newBalance, TransactionTypeEnum.DEPOSIT);
-        this.financialTransactions.add(newTransaction);
+        final FinancialTransaction newTransaction = new FinancialTransaction(UUID.randomUUID(), LocalDateTime.now(), amount, newBalance, TransactionTypeEnum.DEPOSIT);
+        final List<FinancialTransaction> newFinancialTransactions = Stream.concat(this.financialTransactions.stream(), Stream.of(newTransaction)).toList();
+        this.financialTransactions = newFinancialTransactions;
+        return newTransaction;
     }
 
     public Long computeBalance() {
@@ -63,7 +66,7 @@ public class BankAccount {
             throw new IllegalStateException("Unauthorised operation: insufficient balance");
         }
         this.balance = newBalance;
-        final FinancialTransaction newTransaction = new FinancialTransaction(LocalDateTime.now(), amount, newBalance, TransactionTypeEnum.WITHDRAWAL);
+        final FinancialTransaction newTransaction = new FinancialTransaction(UUID.randomUUID(), LocalDateTime.now(), amount, newBalance, TransactionTypeEnum.WITHDRAWAL);
         this.financialTransactions.add(newTransaction);
     }
 
