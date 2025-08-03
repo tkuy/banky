@@ -1,9 +1,8 @@
 package com.exaltit.banky.test.controller.test;
 
-import com.exaltit.banky.ApplicationContext;
-import com.exaltit.banky.domain.account.BankAccountType;
 import com.exaltit.banky.infrastructure.account.controllers.BankAccountController;
 import com.exaltit.banky.infrastructure.account.controllers.dtos.BankAccountCreationDto;
+import com.exaltit.banky.infrastructure.account.controllers.dtos.BankAccountTypeDto;
 import com.exaltit.banky.test.domain.account.ApplicationContextTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +19,7 @@ class BankAccountControllerTest {
     @DisplayName("Allowed overdraft 0, Max 1000")
     void createBankAccount() {
         // GIVEN
-        final BankAccountCreationDto bankAccountCreationDto = new BankAccountCreationDto(Optional.of(0L), Optional.of(1000L), Optional.of(BankAccountType.CURRENT_ACCOUNT));
+        final BankAccountCreationDto bankAccountCreationDto = new BankAccountCreationDto(Optional.of(0L), Optional.of(1000L), Optional.of(BankAccountTypeDto.CURRENT_ACCOUNT));
         // WHEN
         // Of course, I should serialise here the request, then send an HTTP request but I'm not using Spring and want to keep it simple
         // Principle is here though
@@ -34,7 +33,7 @@ class BankAccountControllerTest {
     @DisplayName("Refuse to create a Livret A with unlawful parameters")
     void livretACreationFail() {
         // GIVEN
-        final BankAccountCreationDto bankAccountCreationDto = new BankAccountCreationDto(Optional.of(-1L), Optional.of(1000L), Optional.of(BankAccountType.LIVRET_A_SAVING_ACCOUNT));
+        final BankAccountCreationDto bankAccountCreationDto = new BankAccountCreationDto(Optional.of(-1L), Optional.of(1000L), Optional.of(BankAccountTypeDto.LIVRET_A_SAVING_ACCOUNT));
         // WHEN
         // THEN
         Assertions.assertThrows(IllegalArgumentException.class, () -> bankAccountController.createBankAccount(bankAccountCreationDto));

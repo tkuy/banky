@@ -2,6 +2,7 @@ package com.exaltit.banky.domain.account;
 
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 import com.exaltit.banky.infrastructure.account.controllers.dtos.BankAccountCreationDto;
+import com.exaltit.banky.infrastructure.account.controllers.dtos.BankAccountTypeDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,8 @@ public class BankAccountFactory {
     }
 
     public static BankAccount createBankAccount(final BankAccountCreationDto bankAccountCreationDto) {
-        return switch (bankAccountCreationDto.bankAccountType().orElse(null)) {
+        final BankAccountType bankAccountType = bankAccountCreationDto.bankAccountType().map(BankAccountTypeDto::toDomain).orElse(null);
+        return switch (bankAccountType) {
             case BankAccountType.LIVRET_A_SAVING_ACCOUNT -> {
                 if(bankAccountCreationDto.allowedOverdraft().isPresent() || bankAccountCreationDto.maxAmount().isPresent()) {
                     throw new IllegalArgumentException("Can't define allowedOverdraft and maxAmount for this type of account, leave them empty");
@@ -35,7 +37,12 @@ public class BankAccountFactory {
                 final Long maxAmount = bankAccountCreationDto.maxAmount().orElse(BankAccountType.CURRENT_ACCOUNT.maxAmount);
                 yield createBankAccount(allowedOverdraft, maxAmount, BankAccountType.CURRENT_ACCOUNT);
             }
-            default -> {
+            case null -> {
+                final Long allowedOverdraft = bankAccountCreationDto.allowedOverdraft().orElse(BankAccountType.DEFAULT.allowedOverdraft);
+                final Long maxAmount = bankAccountCreationDto.maxAmount().orElse(BankAccountType.DEFAULT.maxAmount);
+                yield createBankAccount(allowedOverdraft, maxAmount, BankAccountType.DEFAULT);
+            }
+            case DEFAULT -> {
                 final Long allowedOverdraft = bankAccountCreationDto.allowedOverdraft().orElse(BankAccountType.DEFAULT.allowedOverdraft);
                 final Long maxAmount = bankAccountCreationDto.maxAmount().orElse(BankAccountType.DEFAULT.maxAmount);
                 yield createBankAccount(allowedOverdraft, maxAmount, BankAccountType.DEFAULT);

@@ -45,14 +45,14 @@ class BankAccountServiceTest {
         // WHEN
         bankAccountService.deposit(input.getId(), 15L);
         // THEN
-        final Optional<BankAccount> bankAccount = bankAccountService.getById(input.getId());
-        final List<FinancialTransaction> financialTransactions = bankAccount.map(BankAccount::getFinancialTransactions).orElse(List.of());
+        final BankAccount bankAccount = bankAccountService.getById(input.getId()).orElseThrow();
+        final List<FinancialTransaction> financialTransactions = bankAccount.getFinancialTransactions();
         final FinancialTransaction financialTransaction = financialTransactions.getLast();
         // How to avoid 3 without depending on the result? (date+id)
         Assertions.assertEquals(TransactionTypeEnum.DEPOSIT, financialTransaction.transactionType());
         Assertions.assertEquals(15L, financialTransaction.amount());
         Assertions.assertEquals(15L, financialTransaction.balance());
-        Assertions.assertEquals(15, bankAccount.get().getBalance());
+        Assertions.assertEquals(15, bankAccount.getBalance());
     }
 
 
@@ -84,9 +84,9 @@ class BankAccountServiceTest {
         // WHEN
         bankAccountService.withdraw(input.getId(), 40L);
         // THEN
-        final Optional<BankAccount> bankAccount = bankAccountService.getById(input.getId());
+        final BankAccount bankAccount = bankAccountService.getById(input.getId()).orElseThrow(() -> new IllegalStateException("Test fail: bank account not retrieved"));
         // How to avoid 3 without depending on the result? (date+id)
-        Assertions.assertEquals(10L, bankAccount.get().getBalance());
+        Assertions.assertEquals(10L, bankAccount.getBalance());
     }
 
     @Test
@@ -109,8 +109,8 @@ class BankAccountServiceTest {
         // WHEN
         bankAccountService.withdraw(input.getId(), 50L);
         // THEN
-        final Optional<BankAccount> bankAccount = bankAccountService.getById(input.getId());
-        final long actual = bankAccount.get().getBalance();
+        final BankAccount bankAccount = bankAccountService.getById(input.getId()).orElseThrow(() -> new IllegalStateException("Test fail: bank account not retrieved"));
+        final long actual = bankAccount.getBalance();
         Assertions.assertEquals(-50, actual);
     }
 
