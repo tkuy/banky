@@ -1,7 +1,7 @@
 package com.exaltit.banky.infrastructure.account.controllers;
 
-import com.exaltit.banky.domain.account.BankAccount;
-import com.exaltit.banky.domain.account.BankAccountFactory;
+import com.exaltit.banky.domain.account.entities.BankAccount;
+import com.exaltit.banky.domain.account.entities.BankAccountFactory;
 import com.exaltit.banky.domain.account.services.BankAccountService;
 import com.exaltit.banky.infrastructure.account.controllers.dtos.BankAccountCreationDto;
 

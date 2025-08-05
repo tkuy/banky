@@ -1,8 +1,8 @@
 package com.exaltit.banky.infrastructure.account.repositories.entities;
 
-import com.exaltit.banky.domain.account.BankAccount;
-import com.exaltit.banky.domain.account.BankAccountFactory;
-import com.exaltit.banky.domain.account.BankAccountType;
+import com.exaltit.banky.domain.account.entities.BankAccount;
+import com.exaltit.banky.domain.account.entities.BankAccountFactory;
+import com.exaltit.banky.domain.account.entities.BankAccountType;
 
 import java.util.List;
 import java.util.UUID;

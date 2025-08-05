@@ -1,4 +1,4 @@
-package com.exaltit.banky.infrastructure.financialtransaction.entities;
+package com.exaltit.banky.infrastructure.financialtransaction.repositories.entities;
 
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 import com.exaltit.banky.domain.financialtransaction.entities.TransactionTypeEnum;

@@ -1,6 +1,6 @@
 package com.exaltit.banky.domain.account.services;
 
-import com.exaltit.banky.domain.account.BankAccount;
+import com.exaltit.banky.domain.account.entities.BankAccount;
 import com.exaltit.banky.infrastructure.account.repositories.BankAccountRepository;
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionRepository;

@@ -1,6 +1,6 @@
 package com.exaltit.banky.infrastructure.account.repositories;
 
-import com.exaltit.banky.domain.account.BankAccount;
+import com.exaltit.banky.domain.account.entities.BankAccount;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.exaltit.banky.domain.account;
+package com.exaltit.banky.domain.account.entities;
 
 public enum BankAccountType {
 

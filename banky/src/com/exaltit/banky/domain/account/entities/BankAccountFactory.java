@@ -1,4 +1,4 @@
-package com.exaltit.banky.domain.account;
+package com.exaltit.banky.domain.account.entities;
 
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 import com.exaltit.banky.infrastructure.account.controllers.dtos.BankAccountCreationDto;

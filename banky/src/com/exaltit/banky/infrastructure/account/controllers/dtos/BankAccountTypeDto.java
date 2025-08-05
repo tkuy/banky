@@ -1,6 +1,6 @@
 package com.exaltit.banky.infrastructure.account.controllers.dtos;
 
-import com.exaltit.banky.domain.account.BankAccountType;
+import com.exaltit.banky.domain.account.entities.BankAccountType;
 
 public enum BankAccountTypeDto {
     LIVRET_A_SAVING_ACCOUNT,
