@@ -1,7 +1,6 @@
 package com.exaltit.banky.infrastructure.account.repositories;
 
 import com.exaltit.banky.domain.account.BankAccount;
-import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
 import com.exaltit.banky.infrastructure.account.repositories.entities.BankAccountDb;
 
 import java.util.Map;

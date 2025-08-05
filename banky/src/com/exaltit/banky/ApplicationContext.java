@@ -1,10 +1,10 @@
 package com.exaltit.banky;
 
-import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
+import com.exaltit.banky.infrastructure.account.repositories.BankAccountRepository;
 import com.exaltit.banky.domain.account.services.BankAccountService;
-import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
+import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionRepository;
 import com.exaltit.banky.infrastructure.account.repositories.BankAccountInMemoryRepository;
-import com.exaltit.banky.infrastructure.financialtransaction.FinancialTransactionInMemoryRepository;
+import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionInMemoryRepository;
 
 public class ApplicationContext {
     private final static ApplicationContext SINGLETON = new ApplicationContext();

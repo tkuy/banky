@@ -1,9 +1,9 @@
 package com.exaltit.banky.domain.account.services;
 
 import com.exaltit.banky.domain.account.BankAccount;
-import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
+import com.exaltit.banky.infrastructure.account.repositories.BankAccountRepository;
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
-import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
+import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionRepository;
 
 import java.util.List;
 import java.util.Optional;
