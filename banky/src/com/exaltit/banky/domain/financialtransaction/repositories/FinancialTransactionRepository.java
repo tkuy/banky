@@ -1,4 +1,4 @@
-package com.exaltit.banky.infrastructure.financialtransaction.repositories;
+package com.exaltit.banky.domain.financialtransaction.repositories;
 
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 

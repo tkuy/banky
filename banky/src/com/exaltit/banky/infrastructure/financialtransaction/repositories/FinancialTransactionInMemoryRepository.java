@@ -1,6 +1,7 @@
 package com.exaltit.banky.infrastructure.financialtransaction.repositories;
 
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
+import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
 import com.exaltit.banky.infrastructure.financialtransaction.repositories.entities.FinancialTransactionDb;
 
 import java.util.List;

@@ -1,15 +1,16 @@
 package com.exaltit.banky.domain.account.services;
 
 import com.exaltit.banky.domain.account.entities.BankAccount;
-import com.exaltit.banky.infrastructure.account.repositories.BankAccountRepository;
+import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
+import com.exaltit.banky.domain.account.usecases.BankAccountUseCase;
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
-import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionRepository;
+import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BankAccountService {
+public class BankAccountService implements BankAccountUseCase {
     private final BankAccountRepository bankAccountRepository;
     private final FinancialTransactionRepository financialTransactionRepository;
 

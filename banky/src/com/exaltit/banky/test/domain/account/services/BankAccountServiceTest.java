@@ -3,7 +3,7 @@ package com.exaltit.banky.test.domain.account.services;
 import com.exaltit.banky.domain.account.entities.BankAccount;
 import com.exaltit.banky.domain.account.entities.BankAccountFactory;
 import com.exaltit.banky.domain.account.entities.BankAccountType;
-import com.exaltit.banky.infrastructure.account.repositories.BankAccountRepository;
+import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
 import com.exaltit.banky.domain.account.services.BankAccountService;
 import com.exaltit.banky.domain.financialtransaction.entities.FinancialTransaction;
 import com.exaltit.banky.domain.financialtransaction.entities.TransactionTypeEnum;

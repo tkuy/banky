@@ -1,8 +1,8 @@
 package com.exaltit.banky.test.domain.account;
 
-import com.exaltit.banky.infrastructure.account.repositories.BankAccountRepository;
+import com.exaltit.banky.domain.account.repositories.BankAccountRepository;
 import com.exaltit.banky.domain.account.services.BankAccountService;
-import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionRepository;
+import com.exaltit.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
 import com.exaltit.banky.infrastructure.account.controllers.BankAccountController;
 import com.exaltit.banky.infrastructure.account.repositories.BankAccountInMemoryRepository;
 import com.exaltit.banky.infrastructure.financialtransaction.repositories.FinancialTransactionInMemoryRepository;
