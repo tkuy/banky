@@ -1,0 +1,40 @@
+package com.mycompany.banky.test.domain.account;
+
+import com.mycompany.banky.domain.account.repositories.BankAccountRepository;
+import com.mycompany.banky.domain.account.services.BankAccountService;
+import com.mycompany.banky.domain.financialtransaction.repositories.FinancialTransactionRepository;
+import com.mycompany.banky.infrastructure.account.controllers.BankAccountController;
+import com.mycompany.banky.infrastructure.account.repositories.BankAccountInMemoryRepository;
+import com.mycompany.banky.infrastructure.financialtransaction.repositories.FinancialTransactionInMemoryRepository;
+
+public class ApplicationContextTest {
+    private final static ApplicationContextTest SINGLETON = new ApplicationContextTest();
+    private final FinancialTransactionRepository financialTransactionRepository = new FinancialTransactionInMemoryRepository();
+    private final BankAccountRepository bankAccountRepository = new BankAccountInMemoryRepository();
+    private final BankAccountService bankAccountService = new BankAccountService(bankAccountRepository, financialTransactionRepository);
+    private final BankAccountController bankAccountController = new BankAccountController(bankAccountService);
+
+    private ApplicationContextTest() {
+
+    }
+
+    public FinancialTransactionRepository getFinancialTransactionRepository() {
+        return financialTransactionRepository;
+    }
+
+    public BankAccountRepository getBankAccountRepository() {
+        return bankAccountRepository;
+    }
+
+    public BankAccountService getBankAccountService() {
+        return bankAccountService;
+    }
+
+    public BankAccountController getBankAccountController() {
+        return bankAccountController;
+    }
+
+    public static ApplicationContextTest getInstance() {
+        return SINGLETON;
+    }
+}
