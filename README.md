@@ -1,5 +1,11 @@
 # 💰 **Bank Account** 💰
 
+### Presentation
+
+This is a kata showing how I work. 
+
+There are 4 features to implement. I've explained my choices, how I worked and prioritisation below the kata rules.
+
 ## Modalités de réalisation
 
 ### Feature 1 : le compte bancaire
@@ -51,8 +57,7 @@ Ce relevé devra faire apparaître :
 - Le solde du compte à la date d'émission du relevé
 - La liste des opérations ayant eu lieu sur le compte, triées par date, dans l'ordre antéchronologique
 
-
- 
+--
 
 ### How I proceeded
 
@@ -165,7 +170,7 @@ Account not found => 404 Not found
 **GET /accounts/statement**
 
 200
-String | Empty string
+String | Empty string | Errors
 
 
 
