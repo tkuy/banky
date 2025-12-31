@@ -6,58 +6,58 @@ This is a kata showing how I work.
 
 There are 4 features to implement. I've explained my choices, how I worked and prioritisation below the kata rules.
 
-## Modalités de réalisation
+## Implementation details
 
-### Feature 1 : le compte bancaire
+### Feature 1: the bank account
 
-On souhaite proposer une fonctionnalité de compte bancaire. 
+We want to offer a bank account feature.
 
-Ce dernier devra disposer : 
+This account must have:
 
-- D'un numéro de compte unique (format libre)
-- D'un solde
-- D'une fonctionnalité de dépôt d'argent
-- D'une fonctionnalité de retrait d'argent
+- A unique account number (free format)
+- A balance
+- A money deposit feature
+- A money withdrawal feature
 
-La règle métier suivante doit être implémentée : 
+The following business rule must be implemented:
 
-- Un retrait ne peut pas être effectué s'il représente plus d'argent qu'il n'y en a sur le compte
-
-__          
-
-### Feature 2 : le découvert
-
-On souhaite proposer un système de découvert autorisé sur les comptes bancaires.
-
-La règle métier suivante doit être implémentée : 
-
-- Si un compte dispose d'une autorisation de découvert, alors un retrait qui serait supérieur au solde du compte est autorisé
-si le solde final ne dépasse pas le montant de l'autorisation de découvert
+- A withdrawal cannot be made if it exceeds the amount of money in the account
 
 __
 
-### Feature 3 : le livret
+### Feature 2: Overdraft
 
-On souhaite proposer un livret d'épargne.
+We want to offer an authorised overdraft facility on bank accounts.
 
-Un livret d'épargne est un compte bancaire qui : 
+The following business rule must be implemented:
 
-- Dispose d'un plafond de dépôt : on ne peut déposer d'argent sur ce compte que dans la limite du plafond du compte (exemple : 22950€ sur un livret A)
-- Ne peut pas avoir d'autorisation de découvert
+- If an account has an authorised overdraft, then a withdrawal exceeding the account balance is permitted
+  if the final balance does not exceed the authorised overdraft amount.
 
 __
 
-### Feature 4 : le relevé de compte
+### Feature 3: savings accounts
 
-On souhaite proposer une fonctionnalité de relevé mensuel (sur un mois glissant) des opérations sur le compte
+We want to offer savings accounts.
 
-Ce relevé devra faire apparaître : 
+A savings account is a bank account that:
 
-- Le type de compte (Livret ou Compte Courant)
-- Le solde du compte à la date d'émission du relevé
-- La liste des opérations ayant eu lieu sur le compte, triées par date, dans l'ordre antéchronologique
+- Has a deposit limit: money can only be deposited into this account up to the account limit (e.g. £22,950 on a Livret A savings account)
+- Cannot have an overdraft facility
 
---
+__
+
+### Feature 4: Account statement
+
+We would like to offer a monthly statement feature (covering a rolling month) of account transactions.
+
+This statement should show:
+
+- The type of account (savings account or current account)
+- The account balance on the date the statement is issued
+- A list of transactions that have taken place on the account, sorted by date in reverse chronological order
+
+______
 
 ### How I proceeded
 
